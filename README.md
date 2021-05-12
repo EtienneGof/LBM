@@ -4,7 +4,7 @@ A toy project that performs Multivariate Gaussian Latent Block Inference by Like
  
 ### What's inside 
 
-The SEM algorithm is implemented in two ways: pure Scala and Scala/Spark. In both cases, a grid-search model selection script is also provided, based on ICL criterion (== Likelihoodpenalized by model complexity).
+The SEM algorithm is implemented in two ways: pure Scala and Scala/Spark. In both cases, a grid-search model selection script is also provided, based on ICL criterion (== Likelihood penalized by model complexity).
 
 ### Quick Setup
 
