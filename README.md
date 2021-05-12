@@ -26,5 +26,5 @@ These algorithms address the case of datasets composed of real-valued observatio
 
 ```
 
-The output is the state of the MCMC at each iteration, described by the observations membership,  the component parameters, the logLikehood and the ICL.
-In order to counter the known inference sensibility to initialization, it is advised to select the best results among several run (a method runConcurrent is available for this purpose).
+The output is the state of the MCMC at each iteration, described by the row membership, the column memberships, the logLikehood and the ICL.
+In order to counter the inference sensibility to initialization, it is advised to select the best results among several run (a method runConcurrent is available for this purpose).
