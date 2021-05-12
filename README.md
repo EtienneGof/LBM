@@ -1,2 +1,30 @@
 # LBM
-Multivariate Gaussian Latent Block Model in Scala &amp; Spark
+
+A toy project that performs Multivariate Gaussian Latent Block Inference by Likelihood optimization with Stochastic Expectation Maximization - Gibbs (SEM) algorithm, in Scala and Spark.
+ 
+### What's inside 
+
+The SEM algorithm is implemented in two ways: pure Scala and Scala/Spark. In both cases, a grid-search model selection script is also provided, based on ICL criterion (== Likelihoodpenalized by model complexity).
+
+### Quick Setup
+
+The script build.sh is provided to build the scala sources. 
+
+See src/pom.xml file for Scala dependencies.
+
+The main files LBM/main and LBMSpark/main launch small examples.
+
+### How to Use ?
+
+These algorithms address the case of datasets composed of real-valued observations. In order to use it on your data, use the following code:
+
+```
+
+    val data = [your data here as DenseMatrix[DenseVector[Double]]
+    val sem = new LBM.SEM(data, K = 2, L = 2)
+    val resutlts  = sem.run()
+
+```
+
+The output is the state of the MCMC at each iteration, described by the observations membership,  the component parameters, the logLikehood and the ICL.
+In order to counter the known inference sensibility to initialization, it is advised to select the best results among several run (a method runConcurrent is available for this purpose).
