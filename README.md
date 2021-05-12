@@ -12,7 +12,7 @@ The script build.sh is provided to build the scala sources.
 
 See src/pom.xml file for Scala dependencies.
 
-The main files LBM/main and LBMSpark/main launch small examples.
+The Main file launches both methods on a tiny toy dataset.
 
 ### How to Use ?
 
