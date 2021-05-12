@@ -10,7 +10,6 @@ import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.util.{Failure, Random, Success, Try}
 
-
 class SEM(data: DenseMatrix[DenseVector[Double]],
           K: Int,
           L: Int,
@@ -31,7 +30,7 @@ class SEM(data: DenseMatrix[DenseVector[Double]],
     case None => Random.shuffle((0 until n).map(i => i%K)).toList
   }
 
-  val colPartition: List[Int] = providedInitialColPartition match {
+  var colPartition: List[Int] = providedInitialColPartition match {
     case Some(cp) =>
       require(cp.distinct.length == L)
       require(cp.length == p)
@@ -88,7 +87,7 @@ class SEM(data: DenseMatrix[DenseVector[Double]],
     @tailrec def updatePartitions(iter: Int): Unit = {
       if (iter <= nIter){
         rowPartition = drawPartition(computeJointLogDistribRowsFromSample())
-        rowPartition = drawPartition(computeJointLogDistribColsFromSample())
+        colPartition = drawPartition(computeJointLogDistribColsFromSample())
         updatePartitions(iter + 1)
       }
     }
@@ -125,7 +124,6 @@ class SEM(data: DenseMatrix[DenseVector[Double]],
     rowProportions = sortedFrequency(rowPartition)
     colProportions = sortedFrequency(colPartition)
     components = getComponentDistributions
-
     if(verbose){println("End Maximization")}
 
   }
@@ -153,15 +151,24 @@ class SEM(data: DenseMatrix[DenseVector[Double]],
     completeLogLikelihood() - log(n) * (this.K - 1) / 2D - log(p) * (L - 1)/2D - log(n * p) * (K * L * nParamPerComponent) / 2D
   }
 
-  def run(maxIterations:Int = 10, verbose:Boolean=false): (List[Int], List[Int], Double, Double) = {
+  def run(maxIterations:Int = 4, verbose:Boolean=false): (List[Int], List[Int], Double, Double) = {
 
+    println("Launching SEM")
+    rowPartition = List(0, 0, 1, 1, 1, 1, 0, 1, 1, 1)
+    colPartition = List(0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
     var iter = 0
     do {
+      println("Iteration: "+ iter)
+      println(rowPartition)
+      println(colPartition)
       iter += 1
       expectationStep(verbose = verbose)
       maximizationStep(verbose = verbose)
     } while (iter < maxIterations)
 
+    println("End SEM, results: ")
+    println(rowPartition)
+    println(colPartition)
     (rowPartition, colPartition, completeLogLikelihood(), ICL())
   }
 
