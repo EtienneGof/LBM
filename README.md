@@ -22,7 +22,7 @@ These algorithms address the case of datasets composed of real-valued observatio
 
     val data = [your data here as DenseMatrix[DenseVector[Double]]
     val sem = new LBM.SEM(data, K = 2, L = 2)
-    val resutlts  = sem.run()
+    val results  = sem.run()
 
 ```
 
